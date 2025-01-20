@@ -1,3 +1,4 @@
+import { generateToken } from "@/lib/jwt";
 import prisma from "@/lib/prisma";
 
 export async function POST(request: Request) {
@@ -19,16 +20,17 @@ export async function POST(request: Request) {
             name: "",
         },
     });
-    console.log({ user })
 
     if (!user) {
         return new Response("User not created", { status: 404 });
     }
 
-    return new Response(null, {
+    const token = generateToken(user.id);
+
+    return new Response(JSON.stringify({ user }), {
         status: 200,
         headers: {
-            // "Set-Cookie": `next-auth.session-token=${user.id}; Path=/; HttpOnly; SameSite=Lax`,
+            "Authorization": `Bearer ${token}`,
         },
     });
 }

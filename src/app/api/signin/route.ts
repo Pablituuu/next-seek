@@ -1,3 +1,4 @@
+import { generateToken } from "@/lib/jwt";
 import prisma from "@/lib/prisma";
 
 export async function POST(request: Request) {
@@ -6,6 +7,7 @@ export async function POST(request: Request) {
     const user = await prisma.user.findUnique({
         where: {
             email,
+            password
         },
     });
 
@@ -13,10 +15,12 @@ export async function POST(request: Request) {
         return new Response("User not found", { status: 404 });
     }
 
+    const token = generateToken(user.id);
+
     return new Response(null, {
         status: 200,
         headers: {
-            // "Set-Cookie": `next-auth.session-token=${user.id}; Path=/; HttpOnly; SameSite=Lax`,
+            "Authorization": `Bearer ${token}`,
         },
     });
 }
