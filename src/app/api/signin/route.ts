@@ -1,5 +1,6 @@
 import { generateToken } from "@/lib/jwt";
 import prisma from "@/lib/prisma";
+import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
     const { email, password } = await request.json();
@@ -16,6 +17,9 @@ export async function POST(request: Request) {
     }
 
     const token = generateToken(user.id);
+
+    const cookieStore = await cookies();
+    cookieStore.set("token", token);
 
     return new Response(JSON.stringify({ user }), {
         status: 200,

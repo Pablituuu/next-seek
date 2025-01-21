@@ -1,8 +1,11 @@
 import { verifyToken } from "@/lib/jwt";
 import prisma from "@/lib/prisma";
+import { cookies } from "next/headers";
 
-export async function GET(request: Request) {
-    const token = request.headers.get('Authorization')?.split(' ')[1]
+export async function GET(_: Request) {
+    const cookieStore = await cookies();
+
+    const token = cookieStore.get("token")?.value;
     if (!token) return new Response('Unauthorized', { status: 401 })
     const isValid = verifyToken(token)
 
@@ -28,12 +31,6 @@ export async function POST(request: Request) {
     if (!isValid || typeof isValid !== 'object') return new Response('Unauthorized', { status: 401 })
 
     const { title, description, status } = await request.json();
-    console.log({
-        title,
-        description,
-        status,
-        authorId: isValid.userId,
-    })
 
     const task = await prisma.tasks.create({
         data: {
@@ -80,12 +77,6 @@ export async function PUT(request: Request) {
     if (!isValid || typeof isValid !== 'object') return new Response('Unauthorized', { status: 401 })
 
     const { id, title, description, status } = await request.json();
-    console.log({
-        title,
-        description,
-        status,
-        id: isValid.userId,
-    })
     const task = await prisma.tasks.update({
         where: {
             id,

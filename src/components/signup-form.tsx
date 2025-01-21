@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,7 +11,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import Link from "next/link";
-import useStore from "@/app/store/use-store";
+import useStore from "@/app/store/use-token-store";
+import { useRouter } from "next/navigation";
 
 export function SignUpForm({
   className,
@@ -21,6 +23,7 @@ export function SignUpForm({
     password: "",
   });
   const { setToken } = useStore();
+  const router = useRouter();
 
   const handleSubmit = async () => {
     const response = await fetch("/api/signup", {
@@ -43,6 +46,7 @@ export function SignUpForm({
 
     // set the token in local storage
     setToken(token);
+    router.push("/dashboard");
   };
 
   return (

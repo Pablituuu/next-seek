@@ -1,23 +1,25 @@
+import { ITask } from "@/interfaces";
 import { create } from "zustand";
 import { persist, devtools } from "zustand/middleware";
 
 interface Store {
     token: string | null;
-    setToken: (token: string) => void;
+    setToken: (token: string | null) => void;
 }
 
-const useStore = create<Store>()(
+const useTokenStore = create<Store>()(
     devtools(
         persist(
             (set) => ({
                 token: null,
-                setToken: (token: string) => set({ token }),
+                setToken: (token: string | null) => set({ token }),
             }),
             {
                 name: "next-seek-store",
             },
         )
-    )
+    ),
+
 );
 
-export default useStore;
+export default useTokenStore;
