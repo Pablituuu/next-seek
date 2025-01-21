@@ -1,5 +1,3 @@
-"use client";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,15 +10,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import Link from "next/link";
+import useStore from "@/app/store/use-store";
 
 export function SignUpForm({
   className,
-  ...props
+  ..._
 }: React.ComponentPropsWithoutRef<"div">) {
   const [state, setState] = useState({
     email: "",
     password: "",
   });
+  const { setToken } = useStore();
 
   const handleSubmit = async () => {
     const response = await fetch("/api/signup", {
@@ -42,8 +42,7 @@ export function SignUpForm({
     if (!token) return;
 
     // set the token in local storage
-    localStorage.setItem("token", token);
-    console.log(localStorage.getItem("token"));
+    setToken(token);
   };
 
   return (

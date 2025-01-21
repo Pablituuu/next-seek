@@ -1,4 +1,3 @@
-"use client";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import Link from "next/link";
+import useStore from "@/app/store/use-store";
 
 export function SignInForm({
   className,
@@ -21,6 +21,7 @@ export function SignInForm({
     email: "",
     password: "",
   });
+  const { setToken } = useStore();
 
   const handleSubmit = async () => {
     const response = await fetch("/api/signin", {
@@ -42,8 +43,7 @@ export function SignInForm({
     if (!token) return;
 
     // set the token in local storage
-    localStorage.setItem("token", token);
-    console.log("sign in success");
+    setToken(token);
   };
 
   return (

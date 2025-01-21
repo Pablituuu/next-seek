@@ -17,7 +17,7 @@ export async function POST(request: Request) {
 
     const token = generateToken(user.id);
 
-    return new Response(null, {
+    return new Response(JSON.stringify({ user }), {
         status: 200,
         headers: {
             "Authorization": `Bearer ${token}`,
