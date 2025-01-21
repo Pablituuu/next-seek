@@ -3,24 +3,32 @@ import prisma from "@/lib/prisma";
 import { cookies } from "next/headers";
 
 export async function GET() {
-    const cookieStore = await cookies();
+    try {
+        const cookieStore = await cookies();
 
-    const token = cookieStore.get("token")?.value;
-    if (!token) return new Response('Unauthorized', { status: 401 })
-    const isValid = verifyToken(token)
+        const token = cookieStore.get("token")?.value;
+        if (!token) return new Response('Unauthorized', { status: 401 })
+        const isValid = verifyToken(token)
 
-    if (!isValid || typeof isValid !== 'object') return new Response('Unauthorized', { status: 401 })
+        if (!isValid || typeof isValid !== 'object') return new Response('Unauthorized', { status: 401 })
 
-    const dataList = await prisma.tasks.findMany({
-        where: {
-            authorId: isValid.userId,
-        },
-    });
+        const dataList = await prisma.tasks.findMany({
+            where: {
+                authorId: isValid.userId,
+            },
+        });
 
-    return new Response(JSON.stringify(dataList), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' },
-    });
+        return new Response(JSON.stringify(dataList), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' },
+        });
+    } catch (error) {
+        console.error(error);
+        return new Response("Internal Server Error", {
+            status: 500,
+            headers: { 'Content-Type': 'application/json' },
+        })
+    }
 }
 
 export async function POST(request: Request) {
