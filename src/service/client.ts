@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000/api";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const createTask = async (token: string, title: string, description: string, status: string) => {
     const response = await fetch(`${API_URL}/task`, {
