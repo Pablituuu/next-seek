@@ -6,6 +6,15 @@ import { getTasks } from "@/service/server";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
+/**
+ * Dashboard page component.
+ *
+ * @function Page
+ * @returns {Promise<JSX.Element>} A JSX element rendering the dashboard with the task list, create task form, and user menu.
+ *
+ * @description This page checks if the user is authenticated by looking for a token in the cookies.
+ * If no token is found, the user is redirected to the sign-in page. If authenticated, the list of tasks is fetched and displayed.
+ */
 async function Page() {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;

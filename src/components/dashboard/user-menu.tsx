@@ -1,8 +1,8 @@
 "use client";
 import useTokenStore from "@/app/store/use-token-store";
 import { Button } from "../ui/button";
-import { useRouter } from "next/navigation";
 import { logout } from "@/service/client";
+import { redirect } from "next/navigation";
 
 /**
  * A component that renders a logout button for the user menu.
@@ -19,7 +19,6 @@ import { logout } from "@/service/client";
  */
 export default function UserMenu() {
   const { setToken } = useTokenStore();
-  const router = useRouter();
 
   /**
    * Handles the user logout process.
@@ -31,7 +30,7 @@ export default function UserMenu() {
   const handleLogout = () => {
     setToken("");
     logout();
-    router.push("/auth/signin");
+    redirect("/auth/signin");
   };
 
   return (

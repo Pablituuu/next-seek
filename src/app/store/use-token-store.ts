@@ -6,6 +6,18 @@ interface Store {
     setToken: (token: string) => void;
 }
 
+/**
+ * A Zustand store for managing the authentication token.
+ *
+ * @function useTokenStore
+ *
+ * @description This store provides state management for the user's authentication token.
+ * It includes functionality to set and persist the token across sessions.
+ *
+ * @example
+ * const { token, setToken } = useTokenStore();
+ * setToken("new-token-value");
+ */
 const useTokenStore = create<Store>()(
     devtools(
         persist(
@@ -18,7 +30,6 @@ const useTokenStore = create<Store>()(
             },
         )
     ),
-
 );
 
 export default useTokenStore;
