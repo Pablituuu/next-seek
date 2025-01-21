@@ -2,6 +2,10 @@ import { PrismaClient } from "@prisma/client";
 
 let prisma: PrismaClient;
 
+/**
+ * Initializes a single PrismaClient instance.
+ * Ensures a single instance in development using global object to prevent multiple connections.
+ */
 if (process.env.NODE_ENV === "production") {
     prisma = new PrismaClient();
 } else {

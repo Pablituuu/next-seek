@@ -1,16 +1,30 @@
-import nextJest from "next/jest";
+/**
+ * For a detailed explanation regarding each configuration property, visit:
+ * https://jestjs.io/docs/configuration
+ */
+
+import type { Config } from "jest";
+import nextJest from "next/jest.js";
 
 const createJestConfig = nextJest({
-    dir: "./", // Indica la raíz del proyecto de Next.js
+    // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
+    dir: "./",
 });
 
-const customJestConfig = {
-    testEnvironment: "jest-environment-jsdom",
-    moduleNameMapper: {
-        // Maneja alias de Next.js como `@/` en las importaciones
-        "^@/(.*)$": "<rootDir>/$1",
-    },
-    setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"], // Archivo para configuraciones adicionales
+const config: Config = {
+    clearMocks: true,
+
+    // preset: 'ts-jest',
+    testEnvironment: "jsdom",
+    // moduleNameMapper: {
+    //     "^@/(.*)$": "<rootDir>/$1",
+    // },
+    // setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
+    // testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/'],
+
+    collectCoverage: true,
+
+    coverageProvider: "v8",
 };
 
-export default createJestConfig(customJestConfig);
+export default createJestConfig(config);

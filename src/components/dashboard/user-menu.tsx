@@ -4,10 +4,30 @@ import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { logout } from "@/service/client";
 
+/**
+ * A component that renders a logout button for the user menu.
+ *
+ * @component
+ *
+ * @description When the logout button is clicked, the user's token is cleared,
+ * the user is logged out from the client service, and they are redirected to the sign-in page.
+ *
+ * @example
+ * return (
+ *   <UserMenu />
+ * )
+ */
 export default function UserMenu() {
   const { setToken } = useTokenStore();
   const router = useRouter();
 
+  /**
+   * Handles the user logout process.
+   * Clears the authentication token, calls the logout service,
+   * and redirects the user to the sign-in page.
+   *
+   * @function handleLogout
+   */
   const handleLogout = () => {
     setToken("");
     logout();

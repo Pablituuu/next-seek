@@ -14,6 +14,19 @@ import Link from "next/link";
 import useStore from "@/app/store/use-token-store";
 import { useRouter } from "next/navigation";
 
+/**
+ * A form component for user registration.
+ *
+ * @component
+ *
+ * @description This form allows users to register by entering their email and password.
+ * Upon successful registration, stores the authentication token and redirects to the dashboard.
+ *
+ * @example
+ * return (
+ *   <SignUpForm />
+ * )
+ */
 export function SignUpForm() {
   const [state, setState] = useState({
     email: "",
@@ -21,6 +34,15 @@ export function SignUpForm() {
   });
   const { setToken } = useStore();
   const router = useRouter();
+
+  /**
+   * Handles the sign-up form submission.
+   * Sends user credentials to the server and handles the response.
+   * Stores the authentication token and redirects upon successful registration.
+   *
+   * @async
+   * @function handleSubmit
+   */
   const handleSubmit = async () => {
     const response = await fetch("/api/signup", {
       method: "POST",

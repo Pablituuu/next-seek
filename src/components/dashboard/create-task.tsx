@@ -25,6 +25,21 @@ import {
 } from "../ui/select";
 import { TaskStatus } from "@prisma/client";
 
+/**
+ * A dialog component for creating a new task.
+ *
+ * @component
+ *
+ * @description This component renders a dialog where users can input a title, description,
+ * and select a status to create a new task. It uses various UI components like Input, Textarea,
+ * and Select from the UI library.
+ *
+ * @example
+ * return (
+ *   <CreateTask />
+ * )
+ */
+
 export default function CreateTask() {
   const [inputTitle, setInputTitle] = useState<string>("");
   const [inputDescription, setInputDescription] = useState<string>("");

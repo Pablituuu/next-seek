@@ -16,10 +16,32 @@ import {
 } from "../ui/select";
 import { TableCell, TableRow } from "../ui/table";
 
+/**
+ * A component for displaying and interacting with a single task item.
+ *
+ * @component
+ *
+ * @param {Object} props - The component props.
+ * @param {ITask} props.item - The task item to display and manipulate.
+ *
+ * @example
+ * const task = { id: 1, title: "Title", description: "Description", status: "PENDING" };
+ * return (
+ *   <TaskItem item={task} />
+ * )
+ */
 export default function TaskItem({ item }: { item: ITask }) {
   const { token } = useTokenStore();
   const { setList, list } = useTasksStore();
 
+  /**
+   * Handles the editing of task fields (title, description, status).
+   *
+   * @function handleEdit
+   * @param {number} id - The ID of the task to edit.
+   * @param {IField} field - The field of the task to be updated.
+   * @param {string} value - The new value of the field.
+   */
   const handleEdit = (id: number, field: IField, value: string) => {
     const cloneItem = cloneDeep(item);
     cloneItem[field] = value;
@@ -33,12 +55,26 @@ export default function TaskItem({ item }: { item: ITask }) {
     );
   };
 
+  /**
+   * Handles input changes without immediately updating the task.
+   *
+   * @function handleChangeInput
+   * @param {number} id - The task ID.
+   * @param {IField} field - The field being changed.
+   * @param {string} value - The new value of the field.
+   */
   const handleChangeInput = (id: number, field: IField, value: string) => {
     const cloneItem = cloneDeep(item);
     cloneItem[field] = value;
     setList(list.map((item) => (item.id === id ? cloneItem : item)));
   };
 
+  /**
+   * Handles the deletion of a task item.
+   *
+   * @function handleDelete
+   * @param {number} id - The ID of the task to delete.
+   */
   const handleDelete = (id: number) => {
     setList(list.filter((item) => item.id !== id));
     deleteTask(token, id);

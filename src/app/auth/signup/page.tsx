@@ -1,4 +1,4 @@
-import { SignUpForm } from "@/components/signup-form";
+import { SignUpForm } from "@/components/signup-form/signup-form";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 

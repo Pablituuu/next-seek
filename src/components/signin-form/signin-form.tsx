@@ -13,18 +13,38 @@ import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import Link from "next/link";
 import useStore from "@/app/store/use-token-store";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 
-export function SignInForm({
-  className,
-  ...props
-}: React.ComponentPropsWithoutRef<"div">) {
+/**
+ * A form component for user sign-in.
+ *
+ * @component
+ *
+ * @description This form allows users to sign in by entering their email and password.
+ * Upon successful login, stores the authentication token and redirects to the dashboard.
+ *
+ * @example
+ * return (
+ *   <SignInForm />
+ * )
+ *
+ * @returns {React.ReactNode} The rendered sign-in form component.
+ */
+export function SignInForm(): React.ReactNode {
   const [state, setState] = useState({
     email: "",
     password: "",
   });
-  const router = useRouter();
   const { setToken } = useStore();
+
+  /**
+   * Handles the sign-in form submission.
+   * Sends user credentials to the server and handles the response.
+   * Stores the authentication token and redirects upon successful login.
+   *
+   * @async
+   * @function handleSubmit
+   */
   const handleSubmit = async () => {
     const response = await fetch("/api/signin", {
       method: "POST",
@@ -46,11 +66,11 @@ export function SignInForm({
 
     // set the token in local storage
     setToken(token);
-    router.push("/dashboard");
+    redirect("/dashboard");
   };
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
+    <div className={cn("flex flex-col gap-6")}>
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl">Login</CardTitle>
