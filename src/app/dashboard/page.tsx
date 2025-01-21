@@ -3,11 +3,14 @@ import TaskList from "@/components/dashboard/task-list";
 import CreateTask from "@/components/dashboard/create-task";
 import UserMenu from "@/components/dashboard/user-menu";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 async function Page() {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
-  console.log({ token });
+  if (!token) redirect("/auth/signin");
+  // const tasks = await getTasks();
+
   return (
     <div className="container mx-auto p-4 flex flex-col items-center">
       <ScrollArea className="w-full h-[90vh] border border-gray-200">
