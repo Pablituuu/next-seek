@@ -2,9 +2,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import TaskList from "@/components/dashboard/task-list";
 import CreateTask from "@/components/dashboard/create-task";
 import UserMenu from "@/components/dashboard/user-menu";
-import { getTasks } from "@/service/server";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 async function Page() {
   return (
