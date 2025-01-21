@@ -2,7 +2,7 @@ import { verifyToken } from "@/lib/jwt";
 import prisma from "@/lib/prisma";
 import { cookies } from "next/headers";
 
-export async function GET(_: Request) {
+export async function GET() {
     const cookieStore = await cookies();
 
     const token = cookieStore.get("token")?.value;

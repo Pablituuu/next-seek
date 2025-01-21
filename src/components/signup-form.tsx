@@ -14,10 +14,7 @@ import Link from "next/link";
 import useStore from "@/app/store/use-token-store";
 import { useRouter } from "next/navigation";
 
-export function SignUpForm({
-  className,
-  ..._
-}: React.ComponentPropsWithoutRef<"div">) {
+export function SignUpForm() {
   const [state, setState] = useState({
     email: "",
     password: "",

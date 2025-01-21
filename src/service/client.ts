@@ -1,5 +1,3 @@
-import { TaskStatus } from "@prisma/client";
-
 const API_URL = "http://localhost:3000/api";
 
 export const createTask = async (token: string, title: string, description: string, status: string) => {

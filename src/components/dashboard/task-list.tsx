@@ -3,7 +3,6 @@ import { ITask } from "@/interfaces";
 import useTasksStore from "@/app/store/use-tasks-store";
 import { useEffect } from "react";
 import TaskItem from "./task-item";
-import useValidateToken from "@/hoks/use-validate-token";
 import {
   Table,
   TableBody,
@@ -14,7 +13,6 @@ import {
 
 export default function TaskList({ list }: { list: ITask[] }) {
   const { list: tasks, setList } = useTasksStore();
-  // useValidateToken();
   useEffect(() => {
     setList(list);
   }, []);
