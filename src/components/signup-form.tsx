@@ -24,7 +24,6 @@ export function SignUpForm({
   });
   const { setToken } = useStore();
   const router = useRouter();
-
   const handleSubmit = async () => {
     const response = await fetch("/api/signup", {
       method: "POST",

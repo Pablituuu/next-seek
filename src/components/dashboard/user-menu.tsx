@@ -9,7 +9,7 @@ export default function UserMenu() {
   const router = useRouter();
 
   const handleLogout = () => {
-    setToken(null);
+    setToken("");
     logout();
     router.push("/auth/signin");
   };

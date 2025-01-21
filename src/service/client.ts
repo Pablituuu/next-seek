@@ -2,7 +2,7 @@ import { TaskStatus } from "@prisma/client";
 
 const API_URL = "http://localhost:3000/api";
 
-export const createTask = async (token: string, title: string) => {
+export const createTask = async (token: string, title: string, description: string, status: string) => {
     const response = await fetch(`${API_URL}/task`, {
         method: "POST",
         headers: {
@@ -10,8 +10,8 @@ export const createTask = async (token: string, title: string) => {
         },
         body: JSON.stringify({
             title,
-            description: "Description",
-            status: TaskStatus.PENDING,
+            description,
+            status,
         }),
     });
     const data = await response.json();

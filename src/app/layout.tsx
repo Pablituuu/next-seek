@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { cookies, headers } from "next/headers";
-import { redirect } from "next/navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,18 +23,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  cookies().then((cookieStore) => {
-    const token = cookieStore.get("token")?.value;
-    headers().then((headers) => {
-      const fullUrl = headers.get("referer") || "";
-      if (fullUrl.includes("auth")) {
-        if (token) redirect("/dashboard");
-      } else {
-        if (!token) redirect("/auth/signin");
-      }
-    });
-  });
-
   return (
     <html lang="en" suppressHydrationWarning>
       <body

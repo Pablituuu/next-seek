@@ -6,13 +6,22 @@ import useTokenStore from "@/app/store/use-token-store";
 import { cloneDeep } from "lodash";
 import useTasksStore from "@/app/store/use-tasks-store";
 import { deleteTask, updateTask } from "@/service/client";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { TableCell, TableRow } from "../ui/table";
 
 export default function TaskItem({ item }: { item: ITask }) {
   const { token } = useTokenStore();
   const { setList, list } = useTasksStore();
 
   const handleEdit = (id: number, field: IField, value: string) => {
-    if (!token) return;
     const cloneItem = cloneDeep(item);
     cloneItem[field] = value;
     setList(list.map((item) => (item.id === id ? cloneItem : item)));
@@ -32,15 +41,14 @@ export default function TaskItem({ item }: { item: ITask }) {
   };
 
   const handleDelete = (id: number) => {
-    if (!token) return;
     setList(list.filter((item) => item.id !== id));
     deleteTask(token, id);
   };
 
   return (
-    <tr key={item.id}>
-      <td className="p-2 border border-gray-300">{item.title}</td>
-      <td className="p-2 border border-gray-300">
+    <TableRow key={item.id}>
+      <TableCell className="p-2 border border-gray-300">{item.title}</TableCell>
+      <TableCell className="p-2 border border-gray-300">
         <Input
           value={item.description}
           onChange={(e) =>
@@ -48,23 +56,35 @@ export default function TaskItem({ item }: { item: ITask }) {
           }
           onBlur={(e) => handleEdit(item.id, "description", e.target.value)}
         />
-      </td>
-      <td className="p-2 border border-gray-300">
-        <select
-          className="border rounded px-2 py-1"
+      </TableCell>
+      <TableCell className="p-2 border border-gray-300">
+        <Select
           value={item.status}
-          onChange={(e) => handleEdit(item.id, "status", e.target.value)}
+          onValueChange={(value) => handleEdit(item.id, "status", value)}
         >
-          <option value={TaskStatus.PENDING}>PENDING</option>
-          <option value={TaskStatus.COMPLETED}>COMPLETED</option>
-          <option value={TaskStatus.CANCELLED}>CANCELLED</option>
-        </select>
-      </td>
-      <td className="p-2 border border-gray-300">
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select a fruit" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value={TaskStatus.PENDING}>
+                {TaskStatus.PENDING}
+              </SelectItem>
+              <SelectItem value={TaskStatus.COMPLETED}>
+                {TaskStatus.COMPLETED}
+              </SelectItem>
+              <SelectItem value={TaskStatus.CANCELLED}>
+                {TaskStatus.CANCELLED}
+              </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </TableCell>
+      <TableCell className="p-2 border border-gray-300">
         <Button variant="destructive" onClick={() => handleDelete(item.id)}>
           Delete
         </Button>
-      </td>
-    </tr>
+      </TableCell>
+    </TableRow>
   );
 }

@@ -6,3 +6,5 @@ export type ITask = {
 };
 
 export type IField = "title" | "description" | "status";
+
+export type ITaskStatus = "PENDING" | "COMPLETED" | "CANCELLED";

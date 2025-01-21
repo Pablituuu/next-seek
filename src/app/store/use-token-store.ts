@@ -3,16 +3,16 @@ import { create } from "zustand";
 import { persist, devtools } from "zustand/middleware";
 
 interface Store {
-    token: string | null;
-    setToken: (token: string | null) => void;
+    token: string;
+    setToken: (token: string) => void;
 }
 
 const useTokenStore = create<Store>()(
     devtools(
         persist(
             (set) => ({
-                token: null,
-                setToken: (token: string | null) => set({ token }),
+                token: "",
+                setToken: (token: string) => set({ token }),
             }),
             {
                 name: "next-seek-store",
