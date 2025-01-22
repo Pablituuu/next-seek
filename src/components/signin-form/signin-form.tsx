@@ -94,6 +94,7 @@ export function SignInForm(): React.ReactNode {
               />
             </div>
             <div className="grid gap-2">
+              <Label htmlFor="password">Password</Label>{" "}
               <Input
                 value={state.password}
                 onChange={(e) =>

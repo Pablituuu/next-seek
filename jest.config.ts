@@ -10,21 +10,22 @@ const createJestConfig = nextJest({
     // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
     dir: "./",
 });
-
 const config: Config = {
     clearMocks: true,
-
-    // preset: 'ts-jest',
     testEnvironment: "jsdom",
-    // moduleNameMapper: {
-    //     "^@/(.*)$": "<rootDir>/$1",
-    // },
-    // setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
-    // testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/'],
-
+    setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
+    testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/'],
     collectCoverage: true,
-
     coverageProvider: "v8",
+    transform: {
+        "^.+\\.(js|jsx|ts|tsx)$": "babel-jest",
+    },
+    transformIgnorePatterns: [
+        "/node_modules/(?!lucide-react).+\\.js$",
+    ],
+    moduleNameMapper: {
+        "^@/(.*)$": "<rootDir>/src/$1",  // Ajusta esto según tu estructura de directorios
+    },
 };
 
 export default createJestConfig(config);
