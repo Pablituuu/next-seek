@@ -1,20 +1,11 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
-import TaskList from "@/components/dashboard/task-list";
-import CreateTask from "@/components/dashboard/create-task";
 import UserMenu from "@/components/dashboard/user-menu";
 import { getTasks } from "@/service/server";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import CreateTaskContainer from "@/components/dashboard/create-task";
+import TaskListContainer from "@/components/dashboard/task-list-container";
 
-/**
- * Dashboard page component.
- *
- * @function Page
- * @returns {Promise<JSX.Element>} A JSX element rendering the dashboard with the task list, create task form, and user menu.
- *
- * @description This page checks if the user is authenticated by looking for a token in the cookies.
- * If no token is found, the user is redirected to the sign-in page. If authenticated, the list of tasks is fetched and displayed.
- */
 async function Page() {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
@@ -24,10 +15,10 @@ async function Page() {
   return (
     <div className="container mx-auto p-4 flex flex-col items-center">
       <ScrollArea className="w-full h-[90vh] border border-gray-200">
-        <TaskList list={tasks} />
+        <TaskListContainer list={tasks} />
       </ScrollArea>
       <div>
-        <CreateTask />
+        <CreateTaskContainer />
         <UserMenu />
       </div>
     </div>
