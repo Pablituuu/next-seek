@@ -1,23 +1,18 @@
+// UserMenuContainer.tsx
+
 "use client";
 import useTokenStore from "@/app/store/use-token-store";
-import { Button } from "../ui/button";
 import { logout } from "@/service/client";
 import { redirect } from "next/navigation";
+import UserMenuComponent from "./user-menu-component";
 
 /**
- * A component that renders a logout button for the user menu.
+ * Container component for handling user menu logic.
  *
  * @component
- *
- * @description When the logout button is clicked, the user's token is cleared,
- * the user is logged out from the client service, and they are redirected to the sign-in page.
- *
- * @example
- * return (
- *   <UserMenu />
- * )
+ * @returns {JSX.Element} The component rendering UserMenuComponent with props.
  */
-export default function UserMenu() {
+export default function UserMenuContainer() {
   const { setToken } = useTokenStore();
 
   /**
@@ -33,9 +28,5 @@ export default function UserMenu() {
     redirect("/auth/signin");
   };
 
-  return (
-    <Button onClick={handleLogout} variant="outline" className="mt-4 w-min">
-      Logout
-    </Button>
-  );
+  return <UserMenuComponent onLogout={handleLogout} />;
 }
