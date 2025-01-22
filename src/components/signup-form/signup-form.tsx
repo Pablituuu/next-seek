@@ -1,33 +1,16 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import Link from "next/link";
 import useStore from "@/app/store/use-token-store";
 import { useRouter } from "next/navigation";
+import SignUpFormComponent from "./signup-component";
 
 /**
- * A form component for user registration.
+ * Container component for managing user sign-up logic.
  *
  * @component
- *
- * @description This form allows users to register by entering their email and password.
- * Upon successful registration, stores the authentication token and redirects to the dashboard.
- *
- * @example
- * return (
- *   <SignUpForm />
- * )
+ * @returns {JSX.Element} The component rendering SignUpFormComponent with props.
  */
-export function SignUpForm() {
+export function SignUpFormContainer() {
   const [state, setState] = useState({
     email: "",
     password: "",
@@ -37,8 +20,7 @@ export function SignUpForm() {
 
   /**
    * Handles the sign-up form submission.
-   * Sends user credentials to the server and handles the response.
-   * Stores the authentication token and redirects upon successful registration.
+   * Sends user credentials to the server and stores the authentication token.
    *
    * @async
    * @function handleSubmit
@@ -51,60 +33,26 @@ export function SignUpForm() {
     });
     if (response.status === 404) {
       alert("User not found");
+      return;
     }
-    // get token from header
-    const authorization = response.headers.get("Authorization");
 
+    const authorization = response.headers.get("Authorization");
     if (!authorization) return;
 
-    // split token into parts and get the token part
     const token = authorization.split(" ").pop();
-
     if (!token) return;
 
-    // set the token in local storage
     setToken(token);
     router.push("/dashboard");
   };
 
   return (
-    <Card className="mx-auto max-w-sm">
-      <CardHeader>
-        <CardTitle className="text-3xl">Register</CardTitle>
-        <CardDescription>
-          Enter your information to create an account
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
-          <Input
-            onChange={(e) => setState({ ...state, email: e.target.value })}
-            id="email"
-            type="email"
-            placeholder="me@example.com"
-            required
-          />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="password">Password</Label>
-          <Input
-            onChange={(e) => setState({ ...state, password: e.target.value })}
-            id="password"
-            type="password"
-            placeholder="••••••••"
-            required
-          />
-        </div>
-        <Button onClick={handleSubmit} className="w-full">
-          Register
-        </Button>
-        <Link href={"/auth/signin"}>
-          <Button variant="outline" className="w-full mt-4">
-            Login
-          </Button>
-        </Link>
-      </CardContent>
-    </Card>
+    <SignUpFormComponent
+      email={state.email}
+      setEmail={(email: string) => setState({ ...state, email })}
+      password={state.password}
+      setPassword={(password: string) => setState({ ...state, password })}
+      handleSubmit={handleSubmit}
+    />
   );
 }

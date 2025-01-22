@@ -1,4 +1,4 @@
-import { SignInForm } from "@/components/signin-form/signin-form";
+import SignInFormContainer from "@/components/signin-form/signin-form";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -18,7 +18,7 @@ export default async function Page() {
   return (
     <div className="flex min-h-screen w-full items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-sm">
-        <SignInForm />
+        <SignInFormContainer />
       </div>
     </div>
   );
